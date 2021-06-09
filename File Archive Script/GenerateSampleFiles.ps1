@@ -249,6 +249,6 @@ If ($DetailedLogging -eq "Y")
 	[TimeSpan]$TotalScriptTime = NEW-TIMESPAN –Start $ScriptStartDateTime –End $ScriptEndDateTime
 	[string]$TotalSeconds = $TotalScriptTime.TotalSeconds.ToString()
 	[string]$EndDateTimeVariable = get-date -f "yyyyMMdd_HHmmss"
-	[string]$MessageValue = "GenerateSampleFiles.ps1 completed on $EndDateTimeVariable"
+	[string]$MessageValue = "GenerateSampleFiles.ps1 completed on $EndDateTimeVariable in $TotalSeconds seconds."
 	WriteFile -FileWriteName $LogFile -FileWriteValue $MessageValue
 }
