@@ -8,25 +8,25 @@
 # All parameters are optional and set to default values. Any of them can be modified.
 # Parameters include: The directory to create the dummy files, the number of dummy files to create, the percentage of empty files, the percentage of files with only a header, the max number of rows in a file, and the separator. You may also create a log file of everything the script does if you'd like. The default will be a log directory in the Dummy folder location, but this can be customized as well.
 Param(
-    # Folder to create the dummy files. This assumes a Windows location but can be set as appropriate for your system.
-    [Parameter(Mandatory=$false)]
+	# Folder to create the dummy files. This assumes a Windows location but can be set as appropriate for your system.
+	[Parameter(Mandatory=$false)]
 	[string]$FolderName = "C:\DummyFiles\",
 
-    # The number of dummy files for the process to generate. Default value is 1,000 files.
-    [Parameter(Mandatory=$false)]
+	# The number of dummy files for the process to generate. Default value is 1,000 files.
+	[Parameter(Mandatory=$false)]
 	[int]$FileCount = 1000,
 
 	# The total percentage of empty files and header-only files cannot exceed 100.
 	# The percentage of empty files the process should create. This can be any int between 1 and 100
-    [Parameter(Mandatory=$false)]
+	[Parameter(Mandatory=$false)]
 	[int]$EmptyPercent = 10,
 
 	# The percentage of files containing only a header the process should create. This can be any int between 1 and 100
-    [Parameter(Mandatory=$false)]
+	[Parameter(Mandatory=$false)]
 	[int]$HeaderOnlyPercent = 20,
 
 	# The maximum number of rows in a file.
-    [Parameter(Mandatory=$false)]
+	[Parameter(Mandatory=$false)]
 	[int]$MaxRowCount = 1000,
 
 	# The separator to use in the file.
@@ -34,11 +34,11 @@ Param(
 	[string]$SeparatorValue = ",",
 
 	# Detailed Logging. Set as "Y" to create detailed log file.
-    [Parameter(Mandatory=$false)]
+	[Parameter(Mandatory=$false)]
 	[string]$DetailedLogging = "N",
 
 	# Detailed Logging Folder Location. Default is a folder called Log within the DummyFiles folder but this can be customized to a folder of your choosing.
-    [Parameter(Mandatory=$false)]
+	[Parameter(Mandatory=$false)]
 	[string]$FolderNameLogging = $FolderName + "Log\"
 )
 
@@ -49,7 +49,7 @@ Param(
 # This function adds lines to a file one at a time.
 function WriteFile
 {
-    Param(
+	Param(
 		[string]$FileWriteName
 		,[string]$FileWriteValue
 	)
@@ -66,7 +66,7 @@ function WriteFile
 		}
 		catch
 		{
-            Write-Host "Attempt to write $FileWriteValue failed on attempt: $attempts. Trying again."
+			Write-Host "Attempt to write $FileWriteValue failed on attempt: $attempts. Trying again."
 			if ($attempts -eq $limit)
 			{
 				Write-Host "Write for $FileWriteValue failed after $attempts attempts. Aborting."
@@ -164,8 +164,6 @@ If ($DetailedLogging -eq "Y")
 [int[]]$ASCIIVals = (65..90)+(97..122)+(35..38)
 [string[]]$CharVals = foreach($ASCIIVal in $ASCIIVals)
 {
-	#$CharVal = [char]$ASCIIVal
-	#$CharVal
 	[char]$ASCIIVal
 }
 
@@ -213,9 +211,6 @@ foreach($i in 1..$FileCount)
 				[int]$RowStringLength1 = Get-Random -Minimum 5 -Maximum 20
 				[int]$RowStringLength2 = Get-Random -Minimum 5 -Maximum 20
 				# Create random strings of letters by choosing from an array of char values and joining them together.
-				# Calculating the random characters every time was slow. I created the array above and use that to generate random text.
-				#[String]$RowStringVal1 = -join(1..$RowStringLength1 | ForEach {((65..90)+(97..122) | Foreach-Object {[char]$_})+(0..9) | Get-Random})
-				#[String]$RowStringVal2 = -join(1..$RowStringLength2 | ForEach {((65..90)+(97..122) | Foreach-Object {[char]$_})+(0..9) | Get-Random})
 				[String]$RowStringVal1 = -join ($CharVals | Get-Random -count $RowStringLength1)
 				[String]$RowStringVal2 = -join ($CharVals | Get-Random -count $RowStringLength2)
 				# Create random number to inlcude in the dummy data.
